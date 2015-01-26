@@ -7,6 +7,7 @@ package graficasestadisticas;
 
 import org.rosuda.JRI.Rengine;
 import org.rosuda.REngine.REngineException;
+import org.rosuda.JRI.RVector;
 
 /**
  *

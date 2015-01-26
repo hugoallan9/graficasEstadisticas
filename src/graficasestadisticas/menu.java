@@ -7,6 +7,8 @@ package graficasestadisticas;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import org.rosuda.JRI.RVector;
+import org.rosuda.JRI.RList;
 
 /**
  *
@@ -33,6 +35,8 @@ public class menu extends javax.swing.JFrame {
     private void initComponents() {
 
         cargaMasivaBt = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -43,13 +47,25 @@ public class menu extends javax.swing.JFrame {
             }
         });
 
+        jList1.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(jList1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(cargaMasivaBt)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(cargaMasivaBt))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(293, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -57,7 +73,9 @@ public class menu extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(cargaMasivaBt)
-                .addContainerGap(258, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(110, Short.MAX_VALUE))
         );
 
         pack();
@@ -74,7 +92,11 @@ public class menu extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "No se pudo establecer \\ conexión con R ", "No hay conexión",JOptionPane.ERROR_MESSAGE);
             }else {
                 rr.get().eval( "library(funcionesINE)");
-                rr.get().eval( "data <- cargaMasiva(" + j.getSelectedFile().getAbsolutePath() + ")");
+                System.out.println(j.getSelectedFile().getAbsolutePath());
+                RList list = (rr.get().eval( "cargaMasiva(\"C:\\Users\\INE\\Documents\\Graficador-Nuevo2\\dataCET1\")").asList());
+                System.out.println(list);
+                RVector vector = rr.get().eval("data.frame(c(1:3),c(2:4))").asVector();
+                System.out.println(vector);
             }
         }
         
@@ -87,5 +109,7 @@ public class menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cargaMasivaBt;
+    private javax.swing.JList jList1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
